@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<EComUserResponseDto> getUser(@PathVariable Long id) {
+    public ResponseEntity<EComUserResponseDto> getUser(@PathVariable String id) {
         EComUserResponseDto EComUser = userService.getUser(id);
         if (EComUser == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -53,7 +53,7 @@ public class UserController {
 
 
     @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUser(@PathVariable String id) {
         return new ResponseEntity<>(userService.deleteUser(id), HttpStatus.OK);
     }
 

@@ -1,7 +1,6 @@
 package com.ecom.userservice.services;
 
 
-
 import com.ecom.userservice.dtos.request.EComUserRequestDto;
 import com.ecom.userservice.dtos.response.AddressResponsetDto;
 import com.ecom.userservice.dtos.response.EComUserResponseDto;
@@ -10,15 +9,12 @@ import com.ecom.userservice.entities.EComUser;
 import com.ecom.userservice.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
-
-    List<EComUser> EComUsers = new ArrayList<>();
 
     private final UserRepository userRepository;
 
@@ -33,9 +29,9 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public EComUserResponseDto getUser(Long id) {
+    public EComUserResponseDto getUser(String id) {
 
-        return userRepository.findById(id).map(this::mapResponseToEntity).orElse(null);
+        return userRepository.findById(String.valueOf(id)).map(this::mapResponseToEntity).orElse(null);
 
 
     }
@@ -48,7 +44,7 @@ public class UserService {
 
 
     public boolean updateUser(Long id, EComUserRequestDto requestDto) {
-        return userRepository.findById(id)
+        return userRepository.findById(String.valueOf(id))
                 .map(existingUser -> {
                     convertRequestTOEntity(existingUser, requestDto);
                     userRepository.save(existingUser);
@@ -57,9 +53,9 @@ public class UserService {
                 .orElse(false);
     }
 
-    public String deleteUser(Long id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
+    public String deleteUser(String id) {
+        if (userRepository.existsById(String.valueOf(id))) {
+            userRepository.deleteById(String.valueOf(id));
             return "User deleted successfully";
         }
         return "User not found";
